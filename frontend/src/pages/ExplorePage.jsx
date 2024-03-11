@@ -14,13 +14,9 @@ const ExplorePage = () => {
 		setRepos([]);
 		try {
 			//5000 req per hour for authenticated request
-			const res = await fetch(`https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc&per_page=10`,{
-				headers:{
-					authorization:`token ${import.meta.env.VITE_GITHUB_KEY}`
-				}
-			});
-			const data = await res.json();
-			setRepos(data.items); // Update repos state with the 'items' array from the response
+			const res = await fetch("http://localhost:8080/api/explore/repos/"+language);
+			const {repos} = await res.json();
+			setRepos(repos); // Update repos state with the 'items' array from the response
 			setSelectedLanguage(language);
 		} catch (error) {
 			toast.error(error.message);
