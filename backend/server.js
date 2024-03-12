@@ -22,9 +22,7 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: fals
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/',(req,res)=>{
-    res.send("server is ready");
-})
+
 app.use(cors());
 
 
