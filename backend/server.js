@@ -9,8 +9,13 @@ import authRoutes from "./routes/auth.route.js";
 import dotenv from "dotenv";
 import cors from 'cors';
 import connectMongoDB from './db/connectMongoDB.js';
-
+import path from "path";
 dotenv.config();
+const PORT = process.env.PORT || 8080;
+const __dirname = path.resolve();
+
+console.log("__dirname", __dirname)
+
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
@@ -28,7 +33,13 @@ app.use("/api/auth", authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/explore',exploreRoutes);
 
-app.listen(8080,()=>{
-   console.log("server started on port:8080");
+app.use(express.static(path.join(__dirname, "/frontend/dist")))
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
+
+app.listen(PORT,()=>{
+   console.log(`server started on: ${PORT}`);
    connectMongoDB();
 })
