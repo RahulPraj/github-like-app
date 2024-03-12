@@ -14,7 +14,7 @@ const ExplorePage = () => {
 		setRepos([]);
 		try {
 			//5000 req per hour for authenticated request
-			const res = await fetch("http://localhost:8080/api/explore/repos/"+language);
+			const res = await fetch("/api/explore/repos/"+language);
 			const {repos} = await res.json();
 			setRepos(repos); // Update repos state with the 'items' array from the response
 			setSelectedLanguage(language);
